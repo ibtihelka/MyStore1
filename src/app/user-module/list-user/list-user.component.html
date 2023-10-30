@@ -1,0 +1,110 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box clearfix">
+                <div class="table-responsive">
+                    <table class="table user-list">
+                        <thead>
+                        <tr>
+                            <th><span>User</span></th>
+                            <th><span>Created</span></th>
+                            <th class="text-center"><span>Status</span></th>
+                            <th><span>Email</span></th>
+                            <th><input type="text" [(ngModel)]=searchItem></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody *ngFor="let item of list ; let i = index">
+                        <tr *ngIf="item.accountCategory==searchItem || !searchItem">
+                            <td>
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                <a href="#" class="user-link">{{item.firstName}}</a>
+                                <span class="user-subhead">{{item.profession}}</span>
+                            </td>
+                            <td>
+                                {{item.birthDate}}
+                            </td>
+                            <td class="text-center">
+                                <span class="label label-default">Inactive</span>
+                            </td>
+                            <td>
+                                <a href="#">{{item.email}}</a>
+                            </td>
+                            <td style="width: 20%;">
+                                <li class="list-inline-item">
+                                    <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Add">
+                                        <i class="fa fa-table"></i>
+                                    </button>
+                                </li>
+                            </td>
+                            <td>
+                                <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" [routerLink]="['/editUser',item.idCustomer]" [queryParams]= "{ Fname:item.firstName, Lname:item.lastName}">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="remove" [disabled]="(item.accountCategory) == 'Admin'" (click)="onDeleteTask(i)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentcolor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<h2> Add User</h2>
+<form #addForm="ngForm" (ngSubmit)="addForm">
+   <div class="form-group">
+       <label for="fn"> First Name  </label>
+       <input type="text" class="form-control" id="fn" name="fn"ngModel required minlength="3" pattern="[a-zA-Z]*" #fn="ngModel">
+       <small class=" text-danger" *ngIf="fn.invalid && (fn.dirty || fn.touched)"> First name is required and should contain at  least 3 lettres .</small>
+
+       <label for="fn"> Last Name  </label>
+       <input type="text" class="form-control" id="ln" name="ln"ngModel required minlength="3" pattern="[a-zA-Z]*"#ln="ngModel">
+       <small class=" text-danger" *ngIf="ln.invalid && (ln.dirty || ln.touched)"> Last name is required and should contain at  least 3 lettres .</small>
+
+
+
+
+
+       <label for="fn"> BirthDate </label>
+       <input type="text" class="form-control" id="bd" name="db" ngModel placeholder="MM/JJ/AAAA" #db="ngModel">
+
+
+
+       <label for="fn"> Email </label>
+       <input type="text" class="form-control" id="em" name="em"ngModel pattern="^[a-zA-Z0-9._-]+@gmail.com" #em="ngModel">
+       <small class=" text-danger" *ngIf="em.invalid && (em.dirty || em.touched)">
+           <small *ngIf="em.errors?.['required']">Email is required.</small>
+           <small *ngIf="em.errors?.['pattern']">Email must end with '@gmail.com'.</small>
+       </small>
+
+
+       <label for="fn"> Password </label>
+       <input type="text" class="form-control" id="ps" name="ps"ngModel required pattern="^[a-zA-Z0-9]{8,}?" #ps="ngModel">
+       <small class="text-danger" *ngIf="ps.invalid && (ps.dirty || ps.touched)">
+           <small *ngIf="ps.errors?.['required']">Password is required.</small>
+           <small *ngIf="ps.errors?.['pattern']">Password must contain at least 8 characters, including lowercase letters, uppercase letters, and numbers.</small>
+       </small>
+
+       <label for="fn"> Profession  </label>
+       <input type="text" class="form-control" id="pr" name="pr"ngModel required minlength="3" #pr="ngModel">
+
+       <label for="fn"> Customer Category  </label>
+       <input type="text" class="form-control" id="cc" name="cc"ngModel placeholder="Customer" readonly #cc="ngModel">
+
+
+
+   </div>
+
+
+</form><button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Save</button>
+<router-outlet></router-outlet>
